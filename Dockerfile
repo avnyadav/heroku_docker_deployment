@@ -1,21 +1,15 @@
-FROM python:3.7.5-slim
+FROM jjanzic/docker-python3-opencv:latest
 
-RUN apt-get update -y && \
-    apt-get install -y python-pip python-dev && \
-    apt-get install -y build-essential cmake && \
-    apt-get install -y libopenblas-dev liblapack-dev && \
-    apt-get install -y libx11-dev libgtk-3-dev
-    
-#COPY ./requirements.txt /requirements.txt
+RUN pip3 install --upgrade pip 
 
-#WORKDIR /
+WORKDIR /
+COPY . /
+RUN pip3 --no-cache-dir install -r requirements.txt
 
+#EXPOSE 5000
 
-#FROM python:3.6
-COPY . /app
-WORKDIR /app
-
-RUN pip3 install -r requirements.txt
+#ENTRYPOINT ["python3"]
+#CMD ["main.py"]
 #RUN pip install -r requirements.txt
 ENTRYPOINT [ "python" ]
 CMD [ "main.py" ]
